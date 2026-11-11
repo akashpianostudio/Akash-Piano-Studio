@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim')}catch(e){}</script>
 <title>Akash Piano Studio</title>
 <meta name="description" content="One-to-one piano lessons in Chennai and online for students in India and overseas, with pianist and guitarist Akash Shritharan. Western classical, music theory, film and pop songs, for children and adults.">
 <link rel="canonical" href="https://akashpianostudio.github.io/Akash-Piano-Studio/">
@@ -276,8 +277,8 @@ nav.main a.nav-cta:hover { background: #C49A47; }
 }
 
 /* Lightbox */
-.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(10,11,14,.95); display: none; align-items: center; justify-content: center; padding: 64px 16px; }
-.lightbox.open { display: flex; }
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(10,11,14,.95); display: flex; align-items: center; justify-content: center; padding: 64px 16px; opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
+.lightbox.open { opacity: 1; visibility: visible; }
 .lightbox img { max-height: 100%; max-width: 100%; border-radius: 4px; }
 .lb-btn { position: absolute; background: rgba(18,19,24,.6); color: var(--on-dark); border: 1px solid #3B3F48; width: 44px; height: 44px; border-radius: 50%; font-size: 20px; cursor: pointer; font-family: var(--font-body); }
 .lb-btn:hover { border-color: var(--on-dark-soft); }
@@ -310,6 +311,62 @@ nav.main a.nav-cta:hover { background: #C49A47; }
 .reach h3 { font-size: 26px; margin-bottom: 12px; }
 .reach p { color: var(--ink-soft); margin: 0; max-width: 30em; }
 .icons { display: flex; flex-wrap: wrap; gap: 12px; }
+
+
+/* ---------- Motion (only when html.anim is set: JS on, reduced motion off) ---------- */
+.keys { position: relative; overflow: hidden; }
+header.site { transition: box-shadow .3s ease; }
+header.site.scrolled { box-shadow: 0 6px 24px rgba(0,0,0,.28); }
+nav.main a:not(.nav-cta) { position: relative; padding: 4px 0; }
+nav.main a:not(.nav-cta)::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 2px; background: var(--brass);
+  transform: scaleX(0); transform-origin: left; transition: transform .3s ease;
+}
+nav.main a.active { color: var(--on-dark); }
+nav.main a.active::after { transform: scaleX(1); }
+
+/* 1. sections fade up into view */
+html.anim .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0ms); }
+html.anim .reveal.in { opacity: 1; transform: none; }
+
+/* 2. opening: hero text in sequence, photo settles */
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes settle { from { transform: scale(1.07); } to { transform: scale(1); } }
+html.anim .hero-text > *, html.anim .hero .creds { opacity: 0; animation: rise .7s cubic-bezier(.2,.7,.2,1) forwards; }
+html.anim .hero-text > :nth-child(1) { animation-delay: .10s; }
+html.anim .hero-text > :nth-child(2) { animation-delay: .22s; }
+html.anim .hero-text > :nth-child(3) { animation-delay: .36s; }
+html.anim .hero-text > :nth-child(4) { animation-delay: .48s; }
+html.anim .hero-text > :nth-child(5) { animation-delay: .60s; }
+html.anim .hero .creds { animation-delay: .78s; }
+html.anim .hero-photo img { animation: settle 2.4s cubic-bezier(.2,.7,.2,1) both; }
+
+/* 3. piano strip: a gold run sweeps across the keys */
+html.anim .keys::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 180px;
+  background: linear-gradient(90deg, rgba(176,138,62,0), rgba(176,138,62,.95) 50%, rgba(176,138,62,0));
+  mix-blend-mode: multiply; transform: translateX(-200px); opacity: 0;
+}
+@keyframes run { 0% { transform: translateX(-200px); opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(var(--run-to, 1400px)); opacity: 0; } }
+html.anim .keys.play::after { animation: run 1.8s cubic-bezier(.45,.05,.35,1) forwards; }
+
+/* 6. hover and tap feedback */
+.btn { transition: background .2s ease, border-color .2s ease, transform .12s ease; }
+.btn:active, .sbtn:active { transform: scale(.96); }
+.lightbox img { transition: transform .3s cubic-bezier(.2,.7,.2,1); transform: scale(.97); }
+.lightbox.open img { transform: scale(1); }
+.shot img { filter: brightness(.9); transition: transform .6s ease, filter .4s ease; }
+@media (hover: hover) {
+  .steps li, .path, .card { transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease; }
+  .steps li:hover, .path:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(18,19,24,.10); }
+  .shot:hover img { filter: brightness(1.04); }
+  .social, .tb-icons a, .tb-link { transition: color .2s ease, background .2s ease, border-color .2s ease; }
+}
+@media (hover: none) { .shot img { filter: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .btn, .lightbox, .lightbox img, .shot img, nav.main a::after, header.site { transition: none !important; }
+  .btn:active, .sbtn:active { transform: none; }
+}
 
 /* Footer */
 footer { background: var(--ebony); color: var(--on-dark-soft); padding: 36px 0; font-size: 14px; }
@@ -680,6 +737,82 @@ footer .social:hover { background: transparent; border-color: var(--on-dark-soft
     window.addEventListener('resize', update);
     update();
   });
+})();
+
+(function () {
+  var root = document.documentElement;
+  var anim = root.classList.contains('anim');
+  try {
+    // 4. header shadow + active section in the menu
+    var header = document.querySelector('header.site');
+    function onScroll() { header.classList.toggle('scrolled', window.scrollY > 8); }
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+    var links = {};
+    document.querySelectorAll('nav.main a[href^="#"]:not(.nav-cta)').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    if ('IntersectionObserver' in window) {
+      var navObs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var a = links[e.target.id]; if (!a) return;
+          if (e.isIntersecting) {
+            Object.keys(links).forEach(function (k) { links[k].classList.remove('active'); });
+            a.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      Object.keys(links).forEach(function (id) { var el = document.getElementById(id); if (el) navObs.observe(el); });
+    }
+    if (!anim) return;
+
+    // 1. reveal on scroll
+    var groups = [
+      ['.section-head', 0], ['.split > *', 120], ['.perf-list > div', 70], ['.quals li', 70],
+      ['.scroll-bar', 0], ['.scroller-wrap', 80], ['.paths-note', 0], ['.shot', 110], ['.reach', 0], ['.card', 120]
+    ];
+    var targets = [];
+    groups.forEach(function (g) {
+      var parents = new Map();
+      document.querySelectorAll(g[0]).forEach(function (el) {
+        if (el.closest('.hero')) return;
+        var p = el.parentElement, n = parents.get(p) || 0; parents.set(p, n + 1);
+        el.classList.add('reveal'); el.style.setProperty('--d', Math.min(n * g[1], 480) + 'ms');
+        targets.push(el);
+      });
+    });
+    var revObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); revObs.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+    targets.forEach(function (el) { revObs.observe(el); });
+
+    // 3. piano strip run, once per strip
+    var keyObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.style.setProperty('--run-to', (e.target.clientWidth + 40) + 'px');
+          e.target.classList.add('play'); keyObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 1 });
+    document.querySelectorAll('.keys').forEach(function (k) { keyObs.observe(k); });
+
+    // 5. count up the hero numbers
+    document.querySelectorAll('.cred b').forEach(function (b, idx) {
+      var m = b.textContent.match(/^(\d+)(.*)$/); if (!m) return;
+      var end = parseInt(m[1], 10), rest = m[2];
+      b.style.minWidth = b.offsetWidth + 'px'; b.textContent = '0' + rest;
+      setTimeout(function () {
+        var t0 = null;
+        function tick(t) {
+          if (!t0) t0 = t;
+          var p = Math.min(1, (t - t0) / 1300), eased = 1 - Math.pow(1 - p, 3);
+          b.textContent = Math.round(end * eased) + rest;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }, 900 + idx * 120);
+    });
+  } catch (err) {
+    root.classList.remove('anim');
+  }
 })();
 </script>
 </body>
