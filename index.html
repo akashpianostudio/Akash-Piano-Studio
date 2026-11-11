@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Akash Piano Studio</title>
+<meta name="description" content="One-to-one piano lessons in Chennai and online for students in India and overseas, with pianist and guitarist Akash Shritharan. Western classical, music theory, film and pop songs, for children and adults.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout idea: full-bleed stage photo opens; six numbered sections alternate ebony and ivory, image sides alternate, keyboard strip frames the page */
+  --ivory: #F5F4F0;
+  --paper: #FFFFFF;
+  --ebony: #121318;
+  --ebony-2: #1B1D23;
+  --ink-soft: #50545D;
+  --brass: #B08A3E;
+  --line: #DEDDD6;
+  --line-dark: #2D3038;
+  --on-dark: #EEEDE8;
+  --on-dark-soft: #A9ABB1;
+  --font-display: "Fraunces", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-body: "Manrope", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0; background: var(--ivory); color: var(--ebony);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.7;
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+}
+img { max-width: 100%; height: auto; display: block; }
+figure { margin: 0; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+h1, h2, h3 {
+  font-family: var(--font-display); font-weight: 500; margin: 0;
+  line-height: 1.1; letter-spacing: -0.015em;
+  text-wrap: balance; hyphens: none; overflow-wrap: normal;
+}
+p { text-wrap: pretty; hyphens: none; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.icon { width: 1em; height: 1em; fill: currentColor; flex: none; }
+
+/* Section scaffold: every section opens the same way */
+section.block { padding: 96px 0; }
+.dark { background: var(--ebony); color: var(--on-dark); }
+.white { background: var(--paper); border-bottom: 1px solid var(--line); }
+.section-head { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: end; margin-bottom: 52px; }
+.section-head h2 { font-size: clamp(32px, 4vw, 46px); }
+.section-head p { margin: 0; color: var(--ink-soft); max-width: 34em; }
+.dark .section-head p { color: var(--on-dark-soft); }
+.eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700;
+  color: var(--brass); margin: 0 0 16px;
+}
+.eyebrow .n { font-variant-numeric: tabular-nums; }
+.eyebrow::after { content: ""; width: 28px; height: 1px; background: currentColor; order: 1; }
+.eyebrow .t { order: 2; }
+@media (max-width: 860px) {
+  section.block { padding: 72px 0; }
+  .section-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 36px; }
+}
+
+/* Keyboard strip: one octave repeated */
+.keys {
+  height: 36px; background-color: var(--paper);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='98' height='36'%3E%3Cg stroke='%23C9C9C1' stroke-width='1'%3E%3Cline x1='0.5' y1='0' x2='0.5' y2='36'/%3E%3Cline x1='14.5' y1='0' x2='14.5' y2='36'/%3E%3Cline x1='28.5' y1='0' x2='28.5' y2='36'/%3E%3Cline x1='42.5' y1='0' x2='42.5' y2='36'/%3E%3Cline x1='56.5' y1='0' x2='56.5' y2='36'/%3E%3Cline x1='70.5' y1='0' x2='70.5' y2='36'/%3E%3Cline x1='84.5' y1='0' x2='84.5' y2='36'/%3E%3C/g%3E%3Cg fill='%23121318'%3E%3Crect x='9' y='0' width='9' height='22' rx='1'/%3E%3Crect x='25' y='0' width='9' height='22' rx='1'/%3E%3Crect x='51' y='0' width='9' height='22' rx='1'/%3E%3Crect x='66' y='0' width='9' height='22' rx='1'/%3E%3Crect x='81' y='0' width='9' height='22' rx='1'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  border-top: 1px solid var(--ebony); border-bottom: 1px solid var(--line);
+}
+
+/* Header */
+header.site {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(18,19,24,.96); color: var(--on-dark); border-bottom: 1px solid var(--line-dark);
+}
+header.site .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; height: 68px; }
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
+.logo-mark {
+  width: 34px; height: 34px; border: 1px solid var(--brass); border-radius: 50%;
+  display: grid; place-items: center; font-family: var(--font-display); font-size: 17px; color: var(--brass);
+}
+.logo-text { font-family: var(--font-display); font-size: 20px; font-weight: 500; letter-spacing: .01em; }
+nav.main { display: flex; align-items: center; gap: 26px; font-size: 14px; font-weight: 500; }
+nav.main a { text-decoration: none; color: var(--on-dark-soft); }
+nav.main a:hover { color: var(--on-dark); }
+nav.main a.nav-cta { color: var(--ebony); background: var(--brass); padding: 8px 18px; border-radius: 999px; font-weight: 600; }
+nav.main a.nav-cta:hover { background: #C49A47; }
+@media (max-width: 920px) { nav.main a:not(.nav-cta) { display: none; } .logo-text { font-size: 18px; } }
+
+/* Buttons */
+.btns { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 24px; border-radius: 999px; font-weight: 600; font-size: 15px; line-height: 1;
+  text-decoration: none; border: 1px solid transparent; cursor: pointer; font-family: var(--font-body); white-space: nowrap;
+}
+.btn-brass { background: var(--brass); color: var(--ebony); }
+.btn-brass:hover { background: #C49A47; }
+.btn-ghost { border-color: rgba(238,237,232,.35); color: var(--on-dark); }
+.btn-ghost:hover { border-color: var(--on-dark); }
+
+/* Hero */
+.hero { position: relative; background: var(--ebony); color: var(--on-dark); overflow: hidden; }
+.hero-photo { position: absolute; inset: 0; }
+.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 72% 30%; }
+.hero-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(18,19,24,.95) 0%, rgba(18,19,24,.88) 36%, rgba(18,19,24,.45) 54%, rgba(18,19,24,0) 70%),
+    linear-gradient(0deg, rgba(18,19,24,.8) 0%, rgba(18,19,24,0) 30%);
+}
+.hero .wrap { position: relative; padding-top: 120px; padding-bottom: 64px; }
+.hero-text { max-width: 500px; }
+.hero .kicker { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; color: var(--brass); margin: 0 0 18px; }
+.hero h1 { font-size: clamp(46px, 6vw, 76px); line-height: 1.02; }
+.hero .role { font-size: 18px; margin: 22px 0 12px; font-weight: 500; }
+.hero .role b { color: var(--brass); font-weight: 600; }
+.hero .lede { color: var(--on-dark-soft); margin: 0 0 34px; }
+.creds { display: grid; grid-template-columns: repeat(3, minmax(0, 220px)); margin-top: 80px; border-top: 1px solid rgba(238,237,232,.2); }
+.cred { padding: 20px 20px 0 0; }
+.cred + .cred { padding-left: 20px; border-left: 1px solid rgba(238,237,232,.2); }
+.cred b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.2; white-space: nowrap; }
+.cred span { display: block; font-size: 13px; color: var(--on-dark-soft); margin-top: 4px; }
+@media (max-width: 860px) {
+  .hero-photo { position: relative; aspect-ratio: 16 / 10; }
+  .hero-photo img { object-position: 70% 30%; }
+  .hero-photo::after { background: linear-gradient(0deg, rgba(18,19,24,1) 0%, rgba(18,19,24,0) 45%); }
+  .hero .wrap { padding-top: 8px; padding-bottom: 56px; }
+  .creds { grid-template-columns: repeat(3, 1fr); margin-top: 48px; }
+  .cred { padding-right: 10px; }
+  .cred + .cred { padding-left: 12px; }
+  .cred b { font-size: 22px; }
+}
+
+/* Split rows: image and text side by side */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+.split p { margin: 0 0 18px; }
+.split img { width: 100%; border-radius: 4px; object-fit: cover; }
+@media (max-width: 860px) { .split { grid-template-columns: 1fr; gap: 36px; } .split .img-second { order: -1; } }
+
+/* About: qualifications */
+.about-photo img { aspect-ratio: auto; }
+.quals { margin-top: 36px; }
+.quals h3 { font-size: 22px; margin-bottom: 14px; }
+.quals ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.quals li { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.quals .what { font-weight: 600; }
+.quals .board { color: var(--ink-soft); font-size: 15px; text-align: right; }
+.quals .status { color: var(--brass); font-weight: 600; }
+@media (max-width: 480px) { .quals li { grid-template-columns: 1fr; } .quals .board { text-align: left; } }
+
+/* Performer */
+.perf-photo img { aspect-ratio: 5 / 4; object-position: 30% 50%; }
+.split .lead { color: var(--on-dark-soft); }
+.perf-list { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line-dark); }
+.perf-list div { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line-dark); }
+.perf-list div:nth-child(even) { padding-left: 20px; border-left: 1px solid var(--line-dark); }
+.perf-list .k { display: block; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--brass); margin-bottom: 4px; }
+.perf-list .v { font-family: var(--font-display); font-size: 21px; line-height: 1.3; }
+@media (max-width: 480px) { .perf-list { grid-template-columns: 1fr; } .perf-list div:nth-child(even) { padding-left: 0; border-left: 0; } }
+
+/* How lessons work: four numbered steps */
+.steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--ebony); }
+.steps li { padding: 26px 28px 8px 0; }
+.steps li + li { padding-left: 28px; border-left: 1px solid var(--line); }
+.step-n { display: block; font-family: var(--font-display); font-size: 40px; line-height: 1; color: var(--brass); margin-bottom: 18px; font-variant-numeric: lining-nums; }
+.steps h3 { font-size: 23px; margin: 0 0 10px; }
+.steps p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+@media (max-width: 960px) {
+  .steps { grid-template-columns: 1fr 1fr; }
+  .steps li:nth-child(3) { padding-left: 0; border-left: 0; }
+  .steps li:nth-child(n+3) { border-top: 1px solid var(--line); margin-top: 8px; }
+}
+@media (max-width: 560px) {
+  .steps { grid-template-columns: 1fr; }
+  .steps li, .steps li + li { padding: 24px 0; border-left: 0; margin-top: 0; }
+  .steps li + li { border-top: 1px solid var(--line); }
+}
+
+/* Classes: three paths, same three questions on each */
+.paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.path {
+  background: var(--paper); border: 1px solid var(--line); border-top: 3px solid var(--brass); border-radius: 6px;
+  padding: 30px 28px 26px; display: grid; grid-row: span 8; grid-template-rows: subgrid; row-gap: 0;
+}
+.paths { grid-template-rows: repeat(8, auto); row-gap: 0; }
+.path h3 { font-size: 27px; }
+.path-intro { margin: 8px 0 22px; color: var(--ink-soft); font-size: 16px; }
+.path .k { margin: 0; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; color: var(--brass); padding-top: 16px; border-top: 1px solid var(--line); }
+.path .v { margin: 4px 0 16px; font-size: 16px; line-height: 1.6; }
+.path .v:last-child { margin-bottom: 0; }
+.paths-note { margin: 28px 0 0; color: var(--ink-soft); max-width: 46em; }
+@media (max-width: 960px) { .paths { grid-template-columns: 1fr; grid-template-rows: none; row-gap: 20px; } .path { grid-row: auto; grid-template-rows: none; } }
+
+/* Gallery: one row of equal height; each photo keeps its own proportions */
+.grid-photos { display: flex; gap: 12px; align-items: flex-start; }
+.shot {
+  position: relative; padding: 0; margin: 0; border: 0; border-radius: 4px; overflow: hidden;
+  flex: var(--r) 1 0; aspect-ratio: var(--r); min-width: 0;
+  background: var(--ebony-2); cursor: zoom-in; font: inherit; color: inherit; text-align: left;
+}
+.shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.shot:hover img { transform: scale(1.03); }
+@media (prefers-reduced-motion: reduce) { .shot img { transition: none; } .shot:hover img { transform: none; } }
+.shot span {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 40px 16px 14px;
+  background: linear-gradient(transparent, rgba(18,19,24,.88)); font-size: 14px; font-weight: 600; color: var(--on-dark);
+}
+@media (max-width: 760px) {
+  .grid-photos { flex-direction: column; }
+  .shot { flex: none; width: 100%; }
+}
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(10,11,14,.95); display: none; align-items: center; justify-content: center; padding: 64px 16px; }
+.lightbox.open { display: flex; }
+.lightbox img { max-height: 100%; max-width: 100%; border-radius: 4px; }
+.lb-btn { position: absolute; background: rgba(18,19,24,.6); color: var(--on-dark); border: 1px solid #3B3F48; width: 44px; height: 44px; border-radius: 50%; font-size: 20px; cursor: pointer; font-family: var(--font-body); }
+.lb-btn:hover { border-color: var(--on-dark-soft); }
+.lb-close { top: 16px; right: 16px; }
+.lb-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 16px; top: 50%; transform: translateY(-50%); }
+.lb-caption { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center; color: var(--on-dark-soft); font-size: 14px; margin: 0; }
+
+/* Contact */
+.contact-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.contact-list li { display: grid; grid-template-columns: 150px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: center; }
+.contact-list .k { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.contact-list .v { font-size: 18px; font-weight: 500; }
+.contact-list .v a { text-decoration: none; border-bottom: 1px solid var(--brass); overflow-wrap: anywhere; }
+.contact-list .v a:hover { color: var(--brass); }
+.social {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  border: 1px solid var(--ebony); color: var(--ebony); font-size: 20px; text-decoration: none;
+}
+.social:hover { background: var(--ebony); color: var(--on-dark); }
+.card { background: var(--ebony); color: var(--on-dark); border-radius: 6px; overflow: hidden; }
+.card img { width: 100%; aspect-ratio: 16 / 8; object-fit: cover; object-position: 60% 40%; border-radius: 0; }
+.card .body { padding: 30px 32px 34px; }
+.card h3 { font-size: 28px; margin-bottom: 12px; }
+.card p { margin: 0 0 16px; color: var(--on-dark-soft); }
+.card p:last-of-type { margin-bottom: 26px; }
+@media (max-width: 480px) { .contact-list li { grid-template-columns: 1fr; gap: 6px; } }
+
+
+.reach h3 { font-size: 26px; margin-bottom: 12px; }
+.reach p { color: var(--ink-soft); margin: 0 0 28px; max-width: 30em; }
+.reach-lines { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 10px; }
+.reach-lines li { display: flex; align-items: center; gap: 12px; font-size: 17px; }
+.reach-lines .icon { color: var(--brass); font-size: 16px; }
+.reach-lines a { text-decoration: none; color: var(--ebony); border-bottom: 1px solid transparent; overflow-wrap: anywhere; }
+.reach-lines a:hover { border-bottom-color: var(--brass); }
+.icons { display: flex; flex-wrap: wrap; gap: 12px; }
+.reach .social { width: 52px; height: 52px; font-size: 21px; }
+
+/* Footer */
+footer { background: var(--ebony); color: var(--on-dark-soft); padding: 36px 0; font-size: 14px; }
+footer .wrap { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; }
+footer nav { display: flex; flex-wrap: wrap; align-items: center; gap: 22px; }
+footer a { text-decoration: none; }
+footer a:hover { color: var(--on-dark); }
+footer .social { width: 36px; height: 36px; font-size: 17px; border-color: var(--line-dark); color: var(--on-dark-soft); }
+footer .social:hover { background: transparent; border-color: var(--on-dark-soft); color: var(--on-dark); }
+</style>
+</head>
+<body>
+
+<!-- Icons: Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-instagram" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></symbol>
+  <symbol id="i-whatsapp" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 512 512"><path d="M64 112c-8.8 0-16 7.2-16 16v22.1L220.5 291.7c20.7 17 50.4 17 71.1 0L464 150.1V128c0-8.8-7.2-16-16-16H64zM48 212.2V384c0 8.8 7.2 16 16 16H448c8.8 0 16-7.2 16-16V212.2L322 328.8c-38.4 31.5-93.7 31.5-132 0L48 212.2zM0 128C0 92.7 28.7 64 64 64H448c35.3 0 64 28.7 64 64V384c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V128z"/></symbol>
+</svg>
+
+<header class="site">
+  <div class="wrap">
+    <a class="logo" href="#home" aria-label="Akash Piano Studio, home">
+      <span class="logo-mark" aria-hidden="true">A</span>
+      <span class="logo-text">Akash Piano Studio</span>
+    </a>
+    <nav class="main" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#performer">Performer</a>
+      <a href="#teaching">How it works</a>
+      <a href="#classes">Classes</a>
+      <a href="#gallery">Gallery</a>
+      <a class="nav-cta" href="#contact">Enquire</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-photo">
+    <img src="images/on-stage.jpg" alt="Akash Shritharan performing on a grand piano in front of a seated audience" width="1919" height="1080">
+  </div>
+  <div class="wrap">
+    <div class="hero-text">
+      <p class="kicker">Piano lessons &middot; Chennai &amp; online worldwide</p>
+      <h1>Akash Piano<br>Studio</h1>
+      <p class="role">with <b>Akash Shritharan</b>, pianist, guitarist and teacher</p>
+      <p class="lede">One-to-one piano lessons for children and adults, from the very first notes to advanced repertoire.</p>
+      <div class="btns">
+        <a class="btn btn-brass" href="#contact">Enquire about classes</a>
+        <a class="btn btn-ghost" href="#classes">See classes</a>
+      </div>
+    </div>
+    <div class="creds" role="list">
+      <div class="cred" role="listitem"><b>20+ years</b><span>at the piano</span></div>
+      <div class="cred" role="listitem"><b>15+</b><span>current students</span></div>
+      <div class="cred" role="listitem"><b>All ages</b><span>children &amp; adults</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="keys" aria-hidden="true"></div>
+
+<!-- 01 About -->
+<section class="block" id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">01</span><span class="t">About Akash</span></p>
+        <h2>A lifetime at the piano, shared one lesson at a time</h2>
+      </div>
+      <p>The piano has been at the centre of my life since childhood. Today I teach children, teenagers and adults, from complete beginners to students preparing for their final grade.</p>
+    </div>
+    <div class="split">
+      <figure class="about-photo">
+        <img src="images/concert-hall.jpg" alt="Akash playing a grand piano in a performance hall" width="1040" height="840" loading="lazy">
+      </figure>
+      <div>
+        <p>Having worked through the graded exams of both major international boards myself, I know how each one assesses, and I help every student choose the path that suits them.</p>
+        <p>My own diploma preparation shapes how I teach: technique always serves the music, and every piece is learned as if it will be performed.</p>
+        <div class="quals">
+          <h3>Qualifications</h3>
+          <ul>
+            <li><span class="what">Grade 8 Piano</span><span class="board">Trinity College London &amp; ABRSM</span></li>
+            <li><span class="what">ATCL Diploma in Piano Performance</span><span class="board">Trinity College London &middot; <span class="status">Candidate</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 Performer -->
+<section class="block dark" id="performer">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">02</span><span class="t">The performer</span></p>
+        <h2>On stage with piano and guitar</h2>
+      </div>
+      <p>Beyond the teaching room I perform regularly, solo and with bands. Students learn from someone who still plays for audiences, so lessons cover what it takes to perform with confidence.</p>
+    </div>
+    <div class="split" style="align-items:center">
+      <div class="perf-list">
+        <div><span class="k">Instruments</span><span class="v">Piano &amp; guitar</span></div>
+        <div><span class="k">Bands</span><span class="v">Prana the Band, Unison</span></div>
+        <div><span class="k">Events</span><span class="v">Public &amp; private stages</span></div>
+        <div><span class="k">Broadcast</span><span class="v">Television shows</span></div>
+      </div>
+      <figure class="perf-photo img-second">
+        <img src="images/public-performance.jpg" alt="Akash playing a grand piano for a crowd at a public event" width="1600" height="900" loading="lazy">
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- 03 How lessons work -->
+<section class="block white" id="teaching">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">03</span><span class="t">How lessons work</span></p>
+        <h2>From first message to first performance</h2>
+      </div>
+      <p>Here&rsquo;s what learning with me looks like, whether you&rsquo;re five or fifty.</p>
+    </div>
+    <ol class="steps">
+      <li>
+        <span class="step-n">1</span>
+        <h3>Trial class</h3>
+        <p>We start with one lesson, at the studio or online. I listen to where you are and what you&rsquo;d love to play.</p>
+      </li>
+      <li>
+        <span class="step-n">2</span>
+        <h3>Your plan</h3>
+        <p>Together we pick a path and set a goal: a song to learn, an exam to take, or a performance to prepare.</p>
+      </li>
+      <li>
+        <span class="step-n">3</span>
+        <h3>Weekly lessons</h3>
+        <p>One-to-one lessons every week, so you always leave knowing exactly what to practise next.</p>
+      </li>
+      <li>
+        <span class="step-n">4</span>
+        <h3>Milestones</h3>
+        <p>Progress you can hear: your first full piece, an exam certificate, or your first time playing for an audience.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- 04 Classes -->
+<section class="block" id="classes">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">04</span><span class="t">Classes</span></p>
+        <h2>Choose your path</h2>
+      </div>
+      <p>All lessons are one-to-one, at my home piano studio or online, for students in India and overseas.</p>
+    </div>
+    <div class="paths">
+      <article class="path">
+        <h3>Play for joy</h3>
+        <p class="path-intro">The music you love, at your own pace.</p>
+          <p class="k">Who it&rsquo;s for</p>
+          <p class="v">Children and adults who want to play without exam pressure.</p>
+          <p class="k">What you&rsquo;ll learn</p>
+          <p class="v">Film songs, pop songs and classical favourites, with reading, rhythm and chords built in.</p>
+          <p class="k">Where it leads</p>
+          <p class="v">Playing confidently for yourself, your family and your friends.</p>
+      </article>
+      <article class="path">
+        <h3>Exam path</h3>
+        <p class="path-intro">Structured progress with recognised results.</p>
+          <p class="k">Who it&rsquo;s for</p>
+          <p class="v">Students who want a qualification and steady, step-by-step progress.</p>
+          <p class="k">What you&rsquo;ll learn</p>
+          <p class="v">Trinity or ABRSM pieces, scales, sight-reading, aural tests and music theory, with mock exams before the real one.</p>
+          <p class="k">Where it leads</p>
+          <p class="v">Graded certificates from Initial all the way to Grade 8.</p>
+      </article>
+      <article class="path">
+        <h3>Performance</h3>
+        <p class="path-intro">From the practice room to the stage.</p>
+          <p class="k">Who it&rsquo;s for</p>
+          <p class="v">Intermediate and advanced students ready to play for an audience.</p>
+          <p class="k">What you&rsquo;ll learn</p>
+          <p class="v">Concert repertoire, interpretation, stage presence and how to handle nerves.</p>
+          <p class="k">Where it leads</p>
+          <p class="v">Confident performances at concerts and events.</p>
+      </article>
+    </div>
+    <p class="paths-note">Children can start from age 5, and adults are welcome at any level. Paths can be combined: many students prepare for exams while learning the songs they love.</p>
+  </div>
+</section>
+
+<!-- 05 Gallery -->
+<section class="block dark" id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">05</span><span class="t">Gallery</span></p>
+        <h2>At the keys</h2>
+      </div>
+      <p>Tap a photo to see it full size.</p>
+    </div>
+    <div class="grid-photos">
+      <button class="shot" type="button" style="--r:0.75"><img src="images/from-the-bench.jpg" alt="View over Akash's shoulder as he plays a grand piano for a crowd" width="960" height="1280" loading="lazy"><span>From the bench</span></button>
+      <button class="shot" type="button" style="--r:1.254"><img src="images/at-the-grand.jpg" alt="Akash seated at a grand piano with its lid raised, framed by red curtains" width="890" height="710" loading="lazy"><span>At the grand</span></button>
+      <button class="shot" type="button" style="--r:1.333"><img src="images/hands-on-keys.jpg" alt="Close-up of Akash's hands on the keys of a grand piano" width="1280" height="960" loading="lazy"><span>Hands on the keys</span></button>
+    </div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb-btn lb-close" type="button" id="lb-close" aria-label="Close photo">&#x2715;</button>
+  <button class="lb-btn lb-prev" type="button" id="lb-prev" aria-label="Previous photo">&#x2039;</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-btn lb-next" type="button" id="lb-next" aria-label="Next photo">&#x203A;</button>
+  <p class="lb-caption" id="lb-caption"></p>
+</div>
+
+<!-- 06 Contact -->
+<section class="block" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow"><span class="n">06</span><span class="t">Get in touch</span></p>
+        <h2>Enquire about classes</h2>
+      </div>
+      <p>Parents, adult beginners and exam students are all welcome. Get in touch for lesson timings, the fee structure, or to book a trial class.</p>
+    </div>
+    <div class="split">
+      <div class="reach">
+        <h3>Find a time that suits you</h3>
+        <p>Every student&rsquo;s week looks different, so we&rsquo;ll work out timings and fees together when you get in touch. If you&rsquo;re outside India, just tell me your country and time zone and I&rsquo;ll find slots that suit you.</p>
+        <ul class="reach-lines">
+          <li><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg><a href="tel:+918056231800">+91 80562 31800</a></li>
+          <li><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg><a href="mailto:akashpianostudio@gmail.com">akashpianostudio@gmail.com</a></li>
+        </ul>
+        <div class="icons" role="list">
+          <a class="social" role="listitem" href="https://wa.me/918056231800" aria-label="Message on WhatsApp" title="WhatsApp"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+          <a class="social" role="listitem" href="https://www.instagram.com/akash_shritharan/" aria-label="Akash on Instagram" title="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        </div>
+      </div>
+      <div class="card">
+        <img src="images/studio.jpg" alt="The home piano studio" width="1600" height="658" loading="lazy">
+        <div class="body">
+          <h3>Begin the journey</h3>
+          <p>Hi, I&rsquo;m Akash. Whether you&rsquo;re a parent looking for your child&rsquo;s first piano teacher or an adult who has always wanted to play, I&rsquo;d love to hear from you.</p>
+          <p>Tell me a little about who&rsquo;ll be learning: their age, whether they&rsquo;ve played before, and the music they dream of playing. I read every message myself and will get back to you personally.</p>
+          <a class="btn btn-brass" href="https://wa.me/918056231800?text=Hi%20Akash%2C%20I%27d%20like%20to%20know%20more%20about%20piano%20classes.">Say hello on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="keys" aria-hidden="true"></div>
+
+<footer>
+  <div class="wrap">
+    <span>&copy; 2026 Akash Piano Studio &middot; Founded by Akash Shritharan</span>
+    <nav aria-label="Footer">
+      <a href="#about">About</a>
+      <a href="#performer">Performer</a>
+      <a href="#teaching">How it works</a>
+      <a href="#classes">Classes</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#contact">Contact</a>
+      </nav>
+    <div class="icons">
+      <a class="social" href="tel:+918056231800" aria-label="Call" title="Call"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></a>
+      <a class="social" href="https://wa.me/918056231800" aria-label="WhatsApp" title="WhatsApp"><svg class="icon" aria-hidden="true"><use href="#i-whatsapp"/></svg></a>
+      <a class="social" href="mailto:akashpianostudio@gmail.com" aria-label="Email" title="Email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a>
+      <a class="social" href="https://www.instagram.com/akash_shritharan/" aria-label="Instagram" title="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var shots = Array.prototype.slice.call(document.querySelectorAll('.shot'));
+  var box = document.getElementById('lightbox');
+  var img = document.getElementById('lb-img');
+  var cap = document.getElementById('lb-caption');
+  var current = 0, lastFocus = null;
+  function show(i) {
+    current = (i + shots.length) % shots.length;
+    var s = shots[current], im = s.querySelector('img');
+    img.src = im.getAttribute('src'); img.alt = im.alt;
+    cap.textContent = s.querySelector('span').textContent;
+  }
+  function open(i) { lastFocus = document.activeElement; show(i); box.classList.add('open'); document.getElementById('lb-close').focus(); }
+  function close() { box.classList.remove('open'); if (lastFocus) lastFocus.focus(); }
+  shots.forEach(function (s, i) { s.addEventListener('click', function () { open(i); }); });
+  document.getElementById('lb-close').addEventListener('click', close);
+  document.getElementById('lb-prev').addEventListener('click', function () { show(current - 1); });
+  document.getElementById('lb-next').addEventListener('click', function () { show(current + 1); });
+  box.addEventListener('click', function (e) { if (e.target === box) close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+</body>
+</html>
