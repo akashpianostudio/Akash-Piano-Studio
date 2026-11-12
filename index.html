@@ -170,6 +170,13 @@ nav.main a.nav-cta:hover { background: #C49A47; }
      script) so every phone shows the same layout, just larger or smaller. */
   .hero { height: calc(100vh - var(--hdr, 88px) - 36px); height: calc(100svh - var(--hdr, 88px) - 36px); min-height: 420px; display: flex; flex-direction: column; }
   .hero-photo { position: relative; inset: auto; aspect-ratio: 16 / 10; flex: none; overflow: hidden; }
+  /* phones: the photo is shown at full strength; only its bottom edge fades softly into the background */
+  .hero-photo img {
+    object-position: 70% 30%;
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,.4) 6%, rgba(0,0,0,.8) 13%, #000 22%);
+            mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,.4) 6%, rgba(0,0,0,.8) 13%, #000 22%);
+  }
+  .hero-photo::after { background: none; }
   .hero .wrap { --s: 1; position: relative; z-index: 1; flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--s) * 6px); padding-bottom: calc(var(--s) * 18px); }
   .hero .kicker { font-size: calc(var(--s) * 11px); letter-spacing: .18em; margin-bottom: calc(var(--s) * 12px); white-space: nowrap; }
   .hero .kicker .k-long { display: none; }
@@ -257,7 +264,7 @@ nav.main a.nav-cta:hover { background: #C49A47; }
 }
 .scroller-wrap::before { left: 0; background: linear-gradient(90deg, var(--fade), transparent); }
 .scroller-wrap::after { right: 0; background: linear-gradient(270deg, var(--fade), transparent); }
-.scroller-wrap.more-left::before, .scroller-wrap.more-right::after { opacity: 1; }
+.scroller-wrap.more-left::before, .scroller-wrap.more-right::after { opacity: 0; }
 .white .scroller-wrap { --fade: var(--paper); }
 #classes .scroller-wrap { --fade: var(--ivory); }
 .swipe-hint { display: none; margin: 6px 0 0; font-size: 13px; color: var(--ink-soft); }
@@ -286,6 +293,18 @@ nav.main a.nav-cta:hover { background: #C49A47; }
 .path .v { margin: 4px 0 16px; font-size: 16px; line-height: 1.6; }
 .path .v:last-child { margin-bottom: 0; }
 .paths-note { margin: 24px 0 0; color: var(--ink-soft); max-width: 46em; }
+
+/* Phones: cards are ~84% of the row and the row runs to the screen edge,
+   so a slice of the next card is always visible */
+@media (max-width: 760px) {
+  .scroller-wrap { margin-right: -24px; }
+  .scroller { gap: 14px; padding-right: 24px; scroll-padding-left: 0; }
+  .steps { grid-auto-columns: 84%; }
+  .paths { grid-auto-columns: 84%; }
+  .steps li { padding: 22px 22px 24px; }
+  .path { padding: 26px 22px 22px; }
+}
+
 
 /* Gallery: one row of equal height; each photo keeps its own proportions */
 .grid-photos { display: flex; gap: 12px; align-items: flex-start; }
