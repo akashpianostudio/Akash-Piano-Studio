@@ -108,7 +108,7 @@ header.site .navbar { display: flex; align-items: center; justify-content: space
 .tb-icons a:hover { color: var(--brass); }
 @media (max-width: 520px) {
   .topbar { font-size: 12.5px; }
-  .topbar .wrap { gap: 16px; justify-content: center; }
+  .topbar .wrap { gap: 16px; justify-content: center; height: 32px; }
   .tb-icons { display: none; }
 }
 .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; white-space: nowrap; }
@@ -123,6 +123,12 @@ nav.main a:hover { color: var(--on-dark); }
 nav.main a.nav-cta { color: var(--ebony); background: var(--brass); padding: 8px 18px; border-radius: 999px; font-weight: 600; }
 nav.main a.nav-cta:hover { background: #C49A47; }
 @media (max-width: 920px) { nav.main a:not(.nav-cta) { display: none; } .logo-text { font-size: 18px; } }
+@media (max-width: 600px) {
+  header.site .navbar { height: 56px; }
+  .logo-mark { width: 30px; height: 30px; font-size: 15px; }
+  .logo-text { font-size: 17px; }
+  nav.main a.nav-cta { padding: 7px 14px; }
+}
 
 /* Buttons */
 .btns { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -159,14 +165,68 @@ nav.main a.nav-cta:hover { background: #C49A47; }
 .cred b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 28px; line-height: 1.2; white-space: nowrap; }
 .cred span { display: block; font-size: 13px; color: var(--on-dark-soft); margin-top: 4px; }
 @media (max-width: 860px) {
-  .hero-photo { position: relative; aspect-ratio: 16 / 10; }
-  .hero-photo img { object-position: 70% 30%; }
-  .hero-photo::after { background: linear-gradient(0deg, rgba(18,19,24,1) 0%, rgba(18,19,24,0) 45%); }
-  .hero .wrap { padding-top: 8px; padding-bottom: 56px; }
-  .creds { grid-template-columns: repeat(3, 1fr); margin-top: 48px; }
-  .cred { padding-right: 10px; }
+  /* Phones: the first screen is exactly one screen tall.
+     The photo keeps its original 16:10 shape and size; the text below adapts to the
+     space left, stepping down (fit-1 … fit-4) only as far as each phone needs. */
+  .hero { height: calc(100vh - var(--hdr, 88px)); height: calc(100svh - var(--hdr, 88px)); min-height: 440px; display: flex; flex-direction: column; }
+  .hero-photo { position: relative; inset: auto; aspect-ratio: 16 / 10; flex: none; overflow: hidden; }
+  /* the photo itself fades into the background, so there is no edge where it ends */
+  .hero-photo img {
+    object-position: 70% 30%;
+    -webkit-mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,.18) 10%, rgba(0,0,0,.55) 24%, #000 48%);
+            mask-image: linear-gradient(to top, transparent 0%, rgba(0,0,0,.18) 10%, rgba(0,0,0,.55) 24%, #000 48%);
+  }
+  .hero-photo::after { background: none; }
+  .hero .wrap { position: relative; z-index: 1; flex: 1; min-height: 0; width: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-top: 4px; padding-bottom: 24px; }
+  .hero .kicker { font-size: 11px; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(36px, 11vw, 52px); }
+  .hero .role { font-size: 16px; margin: 16px 0 10px; }
+  .hero .lede { font-size: 15px; line-height: 1.55; margin-bottom: 22px; }
+  .hero .btn { padding: 13px 18px; font-size: 14.5px; }
+  .creds { grid-template-columns: repeat(3, 1fr); margin-top: 22px; }
+  .cred { padding: 16px 10px 0 0; }
   .cred + .cred { padding-left: 12px; }
   .cred b { font-size: 22px; }
+  .cred span { font-size: 12px; }
+  /* step 1: tighter spacing */
+  .hero.fit-1 .wrap { padding-bottom: 14px; }
+  .hero.fit-1 .kicker { margin-bottom: 8px; }
+  .hero.fit-1 .role { margin: 10px 0 6px; }
+  .hero.fit-1 .lede { margin-bottom: 14px; }
+  .hero.fit-1 .creds { margin-top: 14px; }
+  .hero.fit-1 .cred { padding-top: 10px; }
+  .hero.fit-1 .btn { padding: 11px 16px; }
+  /* step 2: text starts on the dark fade at the bottom of the photo (photo size unchanged) */
+  .hero.fit-2 .wrap { margin-top: -52px; }
+  /* step 3: drop the description line */
+  .hero.fit-3 .lede { display: none; }
+  .hero.fit-3 .btns { margin-top: 12px; }
+  /* step 4: smaller headline and numbers */
+  .hero.fit-4 h1 { font-size: 32px; }
+  .hero.fit-4 .role { font-size: 14px; }
+  .hero.fit-4 .cred b { font-size: 18px; }
+  .hero.fit-4 .cred span { font-size: 11px; }
+  /* step 5: drop the small line above the name */
+  .hero.fit-5 .kicker { display: none; }
+  /* step 6: name on one line */
+  .hero.fit-6 h1 { font-size: 30px; }
+  .hero.fit-6 h1 br { display: none; }
+}
+
+@media (max-width: 400px) {
+  .hero .btn-ghost { display: none; }
+}
+/* Phones turned sideways are too short for a one-screen hero: let it size to content */
+@media (max-width: 960px) and (max-height: 480px) and (orientation: landscape) {
+  .hero { height: auto; min-height: 0; }
+  .hero .wrap { margin-top: 0 !important; }
+}
+
+@media (max-width: 370px) {
+  .topbar { font-size: 11.5px; }
+  .topbar .wrap { gap: 10px; padding: 0 12px; }
+  .tb-link .icon { display: none; }
+  .logo-text { font-size: 16px; }
 }
 
 /* Split rows: image and text side by side */
@@ -415,6 +475,27 @@ footer .social:hover { background: transparent; border-color: var(--on-dark-soft
   </div>
 </header>
 
+<script>
+(function () {
+  function setHdr() { var h = document.querySelector('header.site'); if (h) document.documentElement.style.setProperty('--hdr', h.offsetHeight + 'px'); }
+  // Phones: step the hero text down until it fits under the photo
+  function fitHero() {
+    var hero = document.querySelector('.hero'); if (!hero) return;
+    var steps = ['fit-1', 'fit-2', 'fit-3', 'fit-4', 'fit-5', 'fit-6'];
+    steps.forEach(function (c) { hero.classList.remove(c); });
+    if (!matchMedia('(max-width: 860px)').matches || matchMedia('(orientation: landscape) and (max-height: 480px)').matches) return;
+    var wrap = hero.querySelector('.wrap');
+    function fits() { return wrap.scrollHeight <= wrap.clientHeight + 1; }
+    for (var i = 0; i < steps.length && !fits(); i++) hero.classList.add(steps[i]);
+  }
+  function update() { setHdr(); fitHero(); }
+  window.__fitHero = update;
+  setHdr(); window.addEventListener('resize', update); window.addEventListener('orientationchange', update);
+  document.addEventListener('DOMContentLoaded', update);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(update);
+})();
+</script>
+
 <section class="hero" id="home">
   <div class="hero-photo">
     <img src="images/on-stage.jpg" alt="Akash Shritharan performing on a grand piano in front of a seated audience" width="1919" height="1080">
@@ -422,7 +503,7 @@ footer .social:hover { background: transparent; border-color: var(--on-dark-soft
   <div class="wrap">
     <div class="hero-text">
       <p class="kicker">Piano lessons &middot; Chennai &amp; online worldwide</p>
-      <h1>Akash Piano<br>Studio</h1>
+      <h1>Akash Piano<br> Studio</h1>
       <p class="role">with <b>Akash Shritharan</b>, pianist, guitarist and teacher</p>
       <p class="lede">One-to-one piano lessons for children and adults, from the very first notes to advanced repertoire.</p>
       <div class="btns">
